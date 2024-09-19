@@ -9,7 +9,9 @@ readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.8"
 dependencies = [
-  "deepbio-toolkit >= 0.1.2"
+  "deepbio-toolkit >= 0.1.2",
+  "lightning[pytorch-extra]",
+  "jsonargparse[signatures]"
 ]
 
 [project.urls]
