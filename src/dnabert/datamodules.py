@@ -48,6 +48,7 @@ class DnaBertPretrainingDataModule(L.LightningDataModule):
         max_length= min(self.max_length*self.kmer_stride - 1 + self.kmer, len(sequence))
         length = torch.randint(min_length, max_length, size=(1,)).item()
         offset = torch.randint(0, len(sequence) - length + 1, size=(1,)).item()
+
         sequence = torch.tensor(list(self.vocabulary(self.tokenizer(sequence[offset:offset+length]))))
 
         # Masking
@@ -63,8 +64,7 @@ class DnaBertPretrainingDataModule(L.LightningDataModule):
 
     def collate(self, batch):
         sequences, masked_tokens = zip(*batch)
-        # (src_a, mask_a), (src_b, mask_b), same_sequence
-        return (torch.stack(sequences), torch.cat(masked_tokens)), None, None
+        return torch.stack(sequences), torch.cat(masked_tokens)
 
     def setup(self, stage: str):
         if stage == "fit":
